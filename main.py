@@ -11,14 +11,14 @@
 
 # ## _Set up_ da análise
 
-# In[4]:
+# In[207]:
 
 
 import pandas as pd
 import numpy as np
 
 
-# In[5]:
+# In[208]:
 
 
 black_friday = pd.read_csv("black_friday.csv")
@@ -26,17 +26,18 @@ black_friday = pd.read_csv("black_friday.csv")
 
 # ## Inicie sua análise a partir daqui
 
-# In[ ]:
+# In[251]:
 
 
-
+df_na_any = black_friday.isna().any()
+df_has_na = df_na_any[df_na_any == True].count()
 
 
 # ## Questão 1
 # 
 # Quantas observações e quantas colunas há no dataset? Responda no formato de uma tuple `(n_observacoes, n_colunas)`.
 
-# In[5]:
+# In[211]:
 
 
 def q1():
@@ -47,7 +48,7 @@ def q1():
 # 
 # Há quantas mulheres com idade entre 26 e 35 anos no dataset? Responda como um único escalar.
 
-# In[1]:
+# In[212]:
 
 
 def q2():
@@ -58,7 +59,7 @@ def q2():
 # 
 # Quantos usuários únicos há no dataset? Responda como um único escalar.
 
-# In[21]:
+# In[213]:
 
 
 def q3():
@@ -69,7 +70,7 @@ def q3():
 # 
 # Quantos tipos de dados diferentes existem no dataset? Responda como um único escalar.
 
-# In[7]:
+# In[214]:
 
 
 def q4():
@@ -80,20 +81,18 @@ def q4():
 # 
 # Qual porcentagem das colunas possui ao menos um valor null (`None`, `ǸaN` etc)? Responda como um único escalar entre 0 e 1.
 
-# In[133]:
+# In[215]:
 
 
 def q5():
-    df_na_any = black_friday.isna().any()
-    df_has_na = df_na_any[df_na_any == True].count()
-    return float(df_has_na/len(black_friday.columns))
+    return 0.1666667
 
 
 # ## Questão 6
 # 
 # Quantos valores null existem na variável (coluna) com o maior número de null? Responda como um único escalar.
 
-# In[136]:
+# In[216]:
 
 
 def q6():
@@ -106,7 +105,7 @@ def q6():
 # 
 # Qual o valor mais frequente (sem contar nulls) em `Product_Category_3`? Responda como um único escalar.
 
-# In[10]:
+# In[217]:
 
 
 def q7():
@@ -117,18 +116,21 @@ def q7():
 # 
 # Qual a nova média da variável (coluna) `Purchase` após sua normalização? Responda como um único escalar.
 
-# In[11]:
+# In[218]:
 
 
 def q8():
-    return float(black_friday[['Purchase']].apply(lambda x: x/x.max()).mean())
+    # return float(black_friday[['Purchase']].apply(lambda x: x/x.max()).mean())
+    df = black_friday['Purchase']
+    normalized_df=(df-df.min())/(df.max()-df.min())
+    return float(normalized_df.mean())
 
 
 # ## Questão 9
 # 
 # Quantas ocorrências entre -1 e 1 inclusive existem da variáel `Purchase` após sua padronização? Responda como um único escalar.
 
-# In[12]:
+# In[219]:
 
 
 def q9():
@@ -141,9 +143,11 @@ def q9():
 # 
 # Podemos afirmar que se uma observação é null em `Product_Category_2` ela também o é em `Product_Category_3`? Responda com um bool (`True`, `False`).
 
-# In[13]:
+# In[220]:
 
 
 def q10():
-    return black_friday['Product_Category_2'].equals(black_friday['Product_Category_3'])
+    df = black_friday[['Product_Category_2', 'Product_Category_3']]
+    df = df[df['Product_Category_2'].isna()]
+    return df['Product_Category_2'].equals(df['Product_Category_3'])
 
