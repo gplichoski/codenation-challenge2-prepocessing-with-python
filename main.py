@@ -26,11 +26,10 @@ black_friday = pd.read_csv("black_friday.csv")
 
 # ## Inicie sua análise a partir daqui
 
-# In[251]:
+# In[273]:
 
 
-df_na_any = black_friday.isna().any()
-df_has_na = df_na_any[df_na_any == True].count()
+black_friday[black_friday.isna().any(axis=1) == True].shape[0]/black_friday.shape[0]
 
 
 # ## Questão 1
@@ -81,11 +80,11 @@ def q4():
 # 
 # Qual porcentagem das colunas possui ao menos um valor null (`None`, `ǸaN` etc)? Responda como um único escalar entre 0 e 1.
 
-# In[215]:
+# In[274]:
 
 
 def q5():
-    return 0.1666667
+    return float(black_friday[black_friday.isna().any(axis=1) == True].shape[0]/black_friday.shape[0])
 
 
 # ## Questão 6
